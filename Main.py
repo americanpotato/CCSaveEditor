@@ -1,11 +1,7 @@
 import sys
 import os
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QLabel, QGridLayout, QScrollArea
-from PyQt5.QtGui import QPixmap, QPainter, QColor, QPalette, QIcon
-from PyQt5.QtWidgets import QApplication, QWidget, QStyle
-from PyQt5.QtWidgets import QApplication, QMessageBox
-from PyQt5.QtWidgets import QApplication, QMainWindow, QAction
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QLabel, QGridLayout, QScrollArea, QStyle, QMessageBox, QAction
+from PyQt5.QtGui import QPixmap, QPainter, QColor, QPalette, QIcon, QImage, QFont
 from PyQt5.QtCore import Qt
 from CustomWidgets import ClickableLabel
 from CharacterStatWindow import CharacterStatWindow
@@ -61,15 +57,37 @@ class MainWindow(QMainWindow):
             iImageOffset = 100
 
         oldSelectedCharacter = self.memoryReader.selectedCharacter
-        for i in range(32):
+        for i in range(42):
+            # skip paint junior and custom characters
+            if i > 30 and not self.useNewCharacterSprites:
+                continue
+
             label = ClickableLabel()
-            image_path = f"{folder_path}{i+1+iImageOffset}.png"
-            pixmap = QPixmap(image_path)
-            
-            self.memoryReader.setCharacter(i+1)
-            if not self.memoryReader.isUnlocked():
-                gray_image = pixmap.toImage().convertToFormat(QImage.Format.Format_Grayscale8)
-                pixmap = QPixmap.fromImage(gray_image)
+
+            pixmap = None
+
+            if i < 28:
+                image_path = f"{folder_path}{i+1+iImageOffset}.png"
+                pixmap = QPixmap(image_path)
+                
+                self.memoryReader.setCharacter(i+1)
+                if not self.memoryReader.isUnlocked():
+                    gray_image = pixmap.toImage().convertToFormat(QImage.Format.Format_Grayscale8)
+                    pixmap = QPixmap.fromImage(gray_image)
+            else:
+                self.memoryReader.setCharacter(i+1)
+                if not self.memoryReader.isUnlocked():
+                    # dont add to list if DLC not enabled
+                    continue
+                
+                if i < 32:
+                    # pink, purple, hatty, painter
+                    image_path = f"{folder_path}{i+1+iImageOffset}.png"
+                    pixmap = QPixmap(image_path)
+                else:
+                    # painter DLC custom characters
+                    image_path = f"{self.resource_path('./CharacterSprites/custom/')}{i - 32 + 1}.png"
+                    pixmap = QPixmap(image_path)
 
             label.clicked.connect(lambda checked=False, idx=(i+1): self.characterImageClicked(idx))
 

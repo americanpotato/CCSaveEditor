@@ -84,5 +84,5 @@ class CharacterStatWindow(QDockWidget):
         self.memoryReader.setInsaneLevelUnlocks(index)
 
 def get_character_name(id):
-    names = ["Green Knight", "Red Knight", "Blue Knight", "Orange Knight", "Gray Knight", "Barbarian", "Thief", "Fencer", "Beekeeper", "Industralist", "Alien Hominid", "The King", "The Brute", "Snakey", "Saracen", "Royal Guard", "Stoveface", "Peasant", "Bear", "Necromancer", "Conehead", "Civilian", "Open-face Gray Knight", "Fire Demon", "Skeleton", "Iceskimo", "Ninja", "Cultist", "Pink Knight", "Purple Knight Blacksmith", "Hatty", "Paint Junior"]
+    names = ["Green Knight", "Red Knight", "Blue Knight", "Orange Knight", "Gray Knight", "Barbarian", "Thief", "Fencer", "Beekeeper", "Industralist", "Alien Hominid", "The King", "The Brute", "Snakey", "Saracen", "Royal Guard", "Stoveface", "Peasant", "Bear", "Necromancer", "Conehead", "Civilian", "Open-face Gray Knight", "Fire Demon", "Skeleton", "Iceskimo", "Ninja", "Cultist", "Pink Knight", "Purple Knight Blacksmith", "Hatty", "Paint Junior", "Custom 1", "Custom 2", "Custom 3", "Custom 4", "Custom 5", "Custom 6", "Custom 7", "Custom 8", "Custom 9", "Custom 10"]
     return names[id - 1] if 1 <= id <= len(names) else "Unknown Character"
